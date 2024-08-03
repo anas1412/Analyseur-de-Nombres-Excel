@@ -53,6 +53,9 @@ class ExcelAnalyzerGUI(QMainWindow):
 
             # Count occurrences
             occurrences = pd.Series(numbers).value_counts().sort_index()
+            
+            # Filter occurrences greater than 1
+            occurrences_gt_1 = occurrences[occurrences > 1]
 
             # Prepare results
             result = "Plages de numéros manquantes:\n"
@@ -62,8 +65,11 @@ class ExcelAnalyzerGUI(QMainWindow):
                 else:
                     result += f"{start}-{end}\n"
 
-            result += "\nLes occurrences:\n"
-            result += str(occurrences)
+            result += "\nLes occurrences (plus d'une fois):\n"
+            if not occurrences_gt_1.empty:
+                result += str(occurrences_gt_1)
+            else:
+                result += "Aucun numéro n'apparaît plus d'une fois."
 
             self.resultText.setText(result)
 
