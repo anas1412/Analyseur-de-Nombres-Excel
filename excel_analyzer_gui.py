@@ -16,7 +16,7 @@ class ExcelAnalyzerGUI(QMainWindow):
 
         layout = QVBoxLayout()
 
-        self.selectButton = QPushButton('Select Excel File', self)
+        self.selectButton = QPushButton('Sélectionner le fichier Excel', self)
         self.selectButton.clicked.connect(self.selectFile)
         layout.addWidget(self.selectButton)
 
@@ -29,7 +29,7 @@ class ExcelAnalyzerGUI(QMainWindow):
         self.setCentralWidget(container)
 
     def selectFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Select Excel File", "", "Excel Files (*.xls *.xlsx)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Sélectionner le fichier Excel", "", "Fichiers Excel (*.xls *.xlsx)")
         if fileName:
             self.processExcel(fileName)
 
@@ -55,20 +55,20 @@ class ExcelAnalyzerGUI(QMainWindow):
             occurrences = pd.Series(numbers).value_counts().sort_index()
 
             # Prepare results
-            result = "Missing number ranges:\n"
+            result = "Plages de numéros manquantes:\n"
             for start, end in missing_ranges:
                 if start == end:
                     result += f"{start}\n"
                 else:
                     result += f"{start}-{end}\n"
 
-            result += "\nNumber occurrences:\n"
+            result += "\nLes occurrences:\n"
             result += str(occurrences)
 
             self.resultText.setText(result)
 
         except Exception as e:
-            self.resultText.setText(f"An error occurred: {str(e)}")
+            self.resultText.setText(f"Une erreur s'est produite: {str(e)}")
 
 def main():
     app = QApplication(sys.argv)
