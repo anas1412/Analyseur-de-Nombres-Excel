@@ -2,6 +2,8 @@
 
 Ce programme analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonne de nombres. Il identifie les plages de nombres manquants et compte les occurrences de chaque nombre.
 
+![ENA](https://github.com/anas1412/process_excel/raw/main/ENA.png)
+
 ## Fonctionnalités
 
 - Lit un fichier Excel (.xls ou .xlsx) à colonne unique
