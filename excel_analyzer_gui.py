@@ -1,4 +1,7 @@
+__version__ = "1.0.2"
+
 import sys
+import os
 import pandas as pd
 import numpy as np
 from itertools import groupby
@@ -35,8 +38,17 @@ class ExcelAnalyzerGUI(QMainWindow):
 
     def processExcel(self, file_path):
         try:
-            # Read the Excel file
-            df = pd.read_excel(file_path, header=None, names=['Numbers'])
+            # Determine the file extension and choose the appropriate engine
+            file_extension = os.path.splitext(file_path)[1].lower()
+            if file_extension == '.xlsx':
+                engine = 'openpyxl'
+            elif file_extension == '.xls':
+                engine = 'xlrd'
+            else:
+                raise ValueError("Unsupported file format")
+
+            # Read the Excel file with the specified engine
+            df = pd.read_excel(file_path, header=None, names=['Numbers'], engine=engine)
 
             # Convert to integers and sort
             numbers = sorted(df['Numbers'].astype(int))
@@ -53,7 +65,7 @@ class ExcelAnalyzerGUI(QMainWindow):
 
             # Count occurrences
             occurrences = pd.Series(numbers).value_counts().sort_index()
-            
+
             # Filter occurrences greater than 1
             occurrences_gt_1 = occurrences[occurrences > 1]
 
