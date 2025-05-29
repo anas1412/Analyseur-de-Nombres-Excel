@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyseur de Nombres Excel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: #0779e4 3px solid;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .main-content h2 {
+            color: #0779e4;
+            border-bottom: 2px solid #0779e4;
+            padding-bottom: 5px;
+        }
+
+        .download-button {
+            display: inline-block;
+            background: #0779e4;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .download-button:hover {
+            background: #0056b3;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #0779e4;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .code-block {
+            background-color: #eef;
+            border-left: 3px solid #0779e4;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Analyseur de Nombres Excel</h1>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <p>Cet outil simple et efficace analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonne de
+                nombres. Il identifie les plages de nombres manquants et compte les occurrences de chaque nombre.</p>
+
+            <div class="image-container">
+                <img src="ENA.png" alt="Aperçu de l'Analyseur de Nombres Excel">
+            </div>
+
+            <h2>Fonctionnalités Principales</h2>
+            <ul>
+                <li>Lit les fichiers Excel (.xls ou .xlsx) avec une colonne unique de nombres.</li>
+                <li>Trie automatiquement les nombres par ordre croissant.</li>
+                <li>Identifie avec précision les plages de nombres manquants à partir de 1.</li>
+                <li>Compte les occurrences de chaque nombre, mettant en évidence les doublons.</li>
+                <li>Interface graphique utilisateur simple, intuitive et en français.</li>
+            </ul>
+
+            <h2>Téléchargement</h2>
+            <p>Téléchargez la dernière version de l'application directement ici :</p>
+            <a href="https://github.com/anas1412/Analyseur-de-Nombres-Excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe"
+                class="download-button">Télécharger Analyseur de Nombres Excel exe</a>
+
+            <h2>Comment Utiliser l'Application</h2>
+            <ol>
+                <li>Lancez l'application en double-cliquant sur le fichier <code>Analyseur.de.Nombres.Excel.exe</code>
+                    que vous avez téléchargé.</li>
+                <li>Cliquez sur le bouton "Sélectionner un fichier Excel".</li>
+                <li>Choisissez votre fichier Excel contenant les nombres à analyser.</li>
+                <li>Les résultats de l'analyse s'afficheront instantanément dans la fenêtre de l'application.</li>
+            </ol>
+
+            <h2>Format du Fichier d'Entrée</h2>
+            <p>Pour un fonctionnement optimal, votre fichier Excel doit respecter les conditions suivantes :</p>
+            <ul>
+                <li>Être au format <code>.xls</code> ou <code>.xlsx</code>.</li>
+                <li>Contenir une seule colonne de nombres.</li>
+                <li>Ne pas avoir de ligne d'en-tête dans la colonne des nombres.</li>
+            </ul>
+
+            <h2>Dépannage</h2>
+            <ul>
+                <li>Si l'application ne démarre pas, vérifiez que votre antivirus ne la bloque pas. Vous pourriez avoir
+                    besoin d'ajouter une exception.</li>
+                <li>Pour tout problème lié au fichier Excel, assurez-vous qu'il respecte scrupuleusement le format
+                    requis décrit ci-dessus.</li>
+            </ul>
+
+            <h2>Contribuer et Signaler des Problèmes</h2>
+            <p>Vos contributions, rapports de bogues et suggestions de fonctionnalités sont les bienvenus ! N'hésitez
+                pas à visiter la <a href="https://github.com/anas1412/Analyseur-de-Nombres-Excel/issues"
+                    target="_blank">page des problèmes</a> sur GitHub pour contribuer ou signaler un souci.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Anas. Tous droits réservés.</p>
+        <p>Développé avec ❤️ par Anas. Visitez le <a href="https://github.com/anas1412/Analyseur-de-Nombres-Excel"
+                target="_blank">dépôt GitHub</a>.</p>
+    </footer>
+</body>
+
+</html>
