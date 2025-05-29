@@ -19,9 +19,7 @@ Ce programme analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonn
 
 ### Option 1 : Télécharger l'exécutable
 
-1. Allez sur la page des [Releases](https://github.com/anas1412/process_excel/releases) de ce projet.
-2. Téléchargez la dernière version de `Excel.Number.Analyzer.exe`.
-3. Double-cliquez sur le fichier téléchargé pour exécuter le programme.
+Simplement clicker ici: [Télécharger](https://github.com/anas1412/process_excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe)
 
 ### Option 2 : Construire à partir du code source
 
