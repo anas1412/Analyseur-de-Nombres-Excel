@@ -1,11 +1,12 @@
 # Analyseur de Nombres Excel
 
+[![Download Latest Release](https://img.shields.io/github/v/release/anas1412/Analyseur-de-Nombres-Excel?label=Download%20Latest)](https://github.com/anas1412/Analyseur-de-Nombres-Excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe)
+
 Ce programme analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonne de nombres. Il identifie les plages de nombres manquants et compte les occurrences de chaque nombre.
 
 <div align="center">
-  <img src="https://github.com/anas1412/process_excel/raw/main/ENA.png" alt="ENA" />
+  <img src="https://github.com/anas1412/Analyseur-de-Nombres-Excel/raw/main/ENA.png" alt="ENA" />
 </div>
-
 
 ## Fonctionnalités
 
@@ -19,7 +20,7 @@ Ce programme analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonn
 
 ### Option 1 : Télécharger l'exécutable
 
-Simplement clicker ici: [Télécharger](https://github.com/anas1412/process_excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe)
+Simplement clicker ici: [Télécharger](https://github.com/anas1412/Analyseur-de-Nombres-Excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe)
 
 ### Option 2 : Construire à partir du code source
 
@@ -27,9 +28,9 @@ Si vous préférez construire l'application vous-même :
 
 1. Assurez-vous d'avoir Python 3.7 ou supérieur installé.
 2. Clonez ce dépôt :
-   `git clone https://github.com/anas1412/process_excel.git`
+   `git clone https://github.com/anas1412/Analyseur-de-Nombres-Excel.git`
 3. Naviguez vers le répertoire du projet :
-   `cd process_excel`
+   `cd Analyseur-de-Nombres-Excel`
 4. Installez les dépendances :
    `pip install -r requirements.txt`
 5. Construisez l'exécutable :
@@ -38,7 +39,7 @@ Si vous préférez construire l'application vous-même :
 
 ## Utilisation
 
-1. Lancez l'application en double-cliquant sur `Excel Number Analyzer.exe`.
+1. Lancez l'application en double-cliquant sur `Analyseur.de.Nombres.Excel.exe`.
 2. Cliquez sur "Select Excel File" et choisissez votre fichier Excel.
 3. Les résultats s'afficheront dans la fenêtre de l'application.
 
@@ -57,7 +58,7 @@ Le fichier Excel d'entrée doit :
 
 ## Contribution
 
-Les contributions, les problèmes et les demandes de fonctionnalités sont les bienvenus. N'hésitez pas à consulter la [page des problèmes](https://github.com/anas1412/process_excel/issues) si vous souhaitez contribuer.
+Les contributions, les problèmes et les demandes de fonctionnalités sont les bienvenus. N'hésitez pas à consulter la [page des problèmes](https://github.com/anas1412/Analyseur-de-Nombres-Excel/issues) si vous souhaitez contribuer.
 
 ## Licence
 
