@@ -35,7 +35,7 @@ class ExcelAnalyzerGUI(QMainWindow):
         self.setCentralWidget(main_widget)
         grid_layout = QGridLayout(main_widget)
 
-        # --- File Selection --- 
+        # --- File Selection ---
         self.selectButton = QPushButton('📂 Sélectionner un fichier Excel', self) # French Translation
         self.selectButton.setFont(QFont('Arial', 10))
         self.selectButton.clicked.connect(self.selectFile)
@@ -45,7 +45,7 @@ class ExcelAnalyzerGUI(QMainWindow):
         self.selectedFileLabel.setFont(QFont('Arial', 9))
         grid_layout.addWidget(self.selectedFileLabel, 0, 1, 1, 2) # Span 2 columns
         
-        # --- Results Area --- 
+        # --- Results Area ---
         results_label = QLabel("📊 Résultats de l'analyse:", self) # French Translation
         results_label.setFont(QFont('Arial', 11, QFont.Bold))
         grid_layout.addWidget(results_label, 1, 0, 1, 3)
@@ -55,7 +55,7 @@ class ExcelAnalyzerGUI(QMainWindow):
         self.resultText.setFont(QFont('Courier New', 10))
         grid_layout.addWidget(self.resultText, 2, 0, 1, 3) # Span 3 columns
 
-        # --- Action Buttons --- 
+        # --- Action Buttons ---
         buttons_layout = QHBoxLayout()
 
         self.exportButton = QPushButton('💾 Exporter en .txt', self) # New Button & French Translation
@@ -77,7 +77,7 @@ class ExcelAnalyzerGUI(QMainWindow):
 
         grid_layout.addLayout(buttons_layout, 3, 0, 1, 3) # Span 3 columns
 
-        # --- Status Bar --- 
+        # --- Status Bar ---
         self.statusBar = QStatusBar(self)
         self.setStatusBar(self.statusBar)
         self.statusBar.showMessage("Prêt. Veuillez sélectionner un fichier Excel.") # French Translation
@@ -111,91 +111,97 @@ class ExcelAnalyzerGUI(QMainWindow):
             elif file_extension == '.xls':
                 engine = 'xlrd'
             else:
-                self.resultText.setText("Erreur: Format de fichier non supporté. Veuillez utiliser des fichiers .xls ou .xlsx.") # French Translation
+                self.resultText.setHtml("<p style='color: red;'>Erreur: Format de fichier non supporté. Veuillez utiliser des fichiers .xls ou .xlsx.</p>") # French Translation
                 self.statusBar.showMessage("Erreur: Format de fichier non supporté.", 5000) # French Translation
                 return
 
             df = pd.read_excel(file_path, header=None, names=['Numbers'], engine=engine)
 
             if df.empty or 'Numbers' not in df.columns or df['Numbers'].isnull().all():
-                self.resultText.setText("Erreur: Le fichier Excel est vide ou la colonne 'Numbers' est manquante/vide.") # French Translation
+                self.resultText.setHtml("<p style='color: red;'>Erreur: Le fichier Excel est vide ou la colonne 'Numbers' est manquante/vide.</p>") # French Translation
                 self.statusBar.showMessage("Erreur: Contenu du fichier Excel vide ou invalide.", 5000) # French Translation
                 return
             
             try:
                 numbers_series = df['Numbers'].dropna().astype(int)
             except ValueError:
-                self.resultText.setText("Erreur: La colonne 'Numbers' contient des données non numériques.") # French Translation
+                self.resultText.setHtml("<p style='color: red;'>Erreur: La colonne 'Numbers' contient des données non numériques.</p>") # French Translation
                 self.statusBar.showMessage("Erreur: Données non numériques dans la colonne 'Numbers'.", 5000) # French Translation
                 return
 
             if numbers_series.empty:
-                self.resultText.setText("Aucune donnée numérique trouvée dans la colonne 'Numbers' après nettoyage.") # French Translation
+                self.resultText.setHtml("<p>Aucune donnée numérique trouvée dans la colonne 'Numbers' après nettoyage.</p>") # French Translation
                 self.statusBar.showMessage("Aucune donnée numérique trouvée.", 5000) # French Translation
                 return
 
             numbers = sorted(numbers_series)
 
             if not numbers:
-                self.resultText.setText("Aucun nombre trouvé dans le fichier Excel.") # French Translation
+                self.resultText.setHtml("<p>Aucun nombre trouvé dans le fichier Excel.</p>") # French Translation
                 self.statusBar.showMessage("Aucun nombre trouvé dans le fichier.", 5000) # French Translation
                 return
 
+            # Start building HTML result string
+            result_html = f"<h3>Analyse du fichier: {os.path.basename(file_path)}</h3>"
+            result_html += "<hr>"
+
             # --- Missing Numbers --- 
-            result_str = "🔢 Numéros manquants:\n" # French Translation
-            result_str += "--------------------\n"
+            result_html += "<h2>🔢 Numéros manquants:</h2>"
+            # result_html += "<p style='font-family: Courier New;'>"
             if not numbers:
-                result_str += "(Aucun nombre trouvé pour analyser les plages manquantes)\n" # French Translation
+                result_html += "<p><i>(Aucun nombre trouvé pour analyser les plages manquantes)</i></p>"
             else:
                 all_present_numbers = set(range(1, max(numbers) + 1))
                 missing_numbers_list = sorted(all_present_numbers - set(numbers))
 
                 if not missing_numbers_list:
-                    result_str += "Aucun numéro manquant (jusqu'au nombre maximum trouvé).\n" # French Translation
+                    result_html += "<p>Aucun numéro manquant (jusqu'au nombre maximum trouvé).</p>"
                 else:
-                    missing_ranges = []
+                    missing_ranges_formatted = []
                     for k, g in groupby(enumerate(missing_numbers_list), lambda x: x[0] - x[1]):
                         group = list(map(itemgetter(1), g))
-                        missing_ranges.append((group[0], group[-1]))
-                    
-                    for start, end in missing_ranges:
-                        if start == end:
-                            result_str += f"{start}\n"
+                        if group[0] == group[-1]:
+                            missing_ranges_formatted.append(f"{group[0]}")
                         else:
-                            result_str += " ".join(map(str, range(start, end + 1))) + "\n"
-            result_str += "\n"
+                            missing_ranges_formatted.append(" ".join(map(str, range(group[0], group[-1] + 1))))
+                    result_html += "<pre>" + "\n".join(missing_ranges_formatted) + "</pre>"
+            # result_html += "</p>"
+            result_html += "<br>"
 
             # --- Occurrences --- 
-            result_str += "📊 Occurrences des numéros (Plus d'une fois):\n" # French Translation
-            result_str += "---------------------------------------\n"
+            result_html += "<h2>📊 Occurrences des numéros (Plus d'une fois):</h2>"
+            # result_html += "<p style='font-family: Courier New;'>"
             if not numbers:
-                result_str += "(Aucun nombre trouvé pour compter les occurrences)\n" # French Translation
+                result_html += "<p><i>(Aucun nombre trouvé pour compter les occurrences)</i></p>"
             else:
                 occurrences = pd.Series(numbers).value_counts()
                 occurrences_gt_1 = occurrences[occurrences > 1].sort_index()
                 if not occurrences_gt_1.empty:
+                    occurrences_list = []
                     for num, count in occurrences_gt_1.items():
-                        result_str += f"Numéro {num}: {count} fois\n" # French Translation
+                        occurrences_list.append(f"Numéro {num}: {count} fois")
+                    result_html += "<pre>" + "\n".join(occurrences_list) + "</pre>"
                 else:
-                    result_str += "Aucun numéro n'apparaît plus d'une fois.\n" # French Translation
+                    result_html += "<p>Aucun numéro n'apparaît plus d'une fois.</p>"
+            # result_html += "</p>"
 
-            self.resultText.setText(result_str)
+            self.resultText.setHtml(result_html) # Use setHtml
             self.statusBar.showMessage("Analyse terminée.", 5000) # French Translation
             self.copyButton.setEnabled(True)
             self.exportButton.setEnabled(True)
 
         except FileNotFoundError:
-            self.resultText.setText(f"Erreur: Fichier non trouvé à {file_path}") # French Translation
+            self.resultText.setHtml(f"<p style='color: red;'>Erreur: Fichier non trouvé à {file_path}</p>") # French Translation
             self.statusBar.showMessage("Erreur: Fichier non trouvé.", 5000) # French Translation
             self.copyButton.setEnabled(False)
             self.exportButton.setEnabled(False)
         except pd.errors.EmptyDataError:
-            self.resultText.setText("Erreur: Le fichier Excel sélectionné est vide.") # French Translation
+            self.resultText.setHtml("<p style='color: red;'>Erreur: Le fichier Excel sélectionné est vide.</p>") # French Translation
             self.statusBar.showMessage("Erreur: Le fichier sélectionné est vide.", 5000) # French Translation
             self.copyButton.setEnabled(False)
             self.exportButton.setEnabled(False)
         except ValueError as ve:
-             self.resultText.setText(f"Erreur lors du traitement du fichier: {str(ve)}") # French Translation
+             self.resultText.setHtml(f"<p style='color: red;'>Erreur lors du traitement du fichier: {str(ve)}</p>") # French Translation
              self.statusBar.showMessage(f"Erreur de valeur: {str(ve)}", 5000) # French Translation
              self.copyButton.setEnabled(False)
              self.exportButton.setEnabled(False)
@@ -206,21 +212,24 @@ class ExcelAnalyzerGUI(QMainWindow):
             self.exportButton.setEnabled(False)
 
     def exportResults(self):
-        if not self.resultText.toPlainText():
+        if not self.resultText.toPlainText(): # Keep toPlainText for checking if empty
             self.statusBar.showMessage("Aucun résultat à exporter.", 3000) # French Translation
             return
         
         fileName, _ = QFileDialog.getSaveFileName(self, "Exporter les résultats en .txt", "resultats_analyse_excel.txt", "Fichiers Texte (*.txt);;Tous les fichiers (*)") # French Translation
         if fileName:
             try:
+                # For export, we might want to export the plain text version, 
+                # or a stripped HTML. For simplicity, using toPlainText.
                 with open(fileName, 'w', encoding='utf-8') as f:
-                    f.write(self.resultText.toPlainText())
+                    f.write(self.resultText.toPlainText()) 
                 self.statusBar.showMessage(f"Résultats exportés vers {fileName}", 3000) # French Translation
             except Exception as e:
                 self.statusBar.showMessage(f"Erreur lors de l'exportation: {str(e)}", 5000) # French Translation
 
     def copyResults(self):
         clipboard = QApplication.clipboard()
+        # For copy, copying plain text is usually more versatile
         clipboard.setText(self.resultText.toPlainText())
         self.statusBar.showMessage("Résultats copiés dans le presse-papiers!", 3000) # French Translation
 
