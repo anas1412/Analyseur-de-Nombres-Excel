@@ -7,7 +7,7 @@ from itertools import groupby
 from operator import itemgetter
 from collections import Counter
 
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 
 class ExcelAnalyzerGUI(tk.Tk):
     def __init__(self):
@@ -15,7 +15,6 @@ class ExcelAnalyzerGUI(tk.Tk):
         self.title(f'Analyseur de Nombres Excel v{__version__}')
         self.geometry('750x550')
 
-        # Set window icon
         icon_path = os.path.join(os.path.dirname(sys.argv[0]), 'icon.png')
         if os.path.exists(icon_path):
             try:
@@ -29,42 +28,37 @@ class ExcelAnalyzerGUI(tk.Tk):
         self.update_status("Prêt. Veuillez sélectionner un fichier Excel.")
 
     def create_widgets(self):
-        # --- File Selection --- 
         file_frame = ttk.Frame(self, padding="10")
         file_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
 
-        self.select_button = ttk.Button(file_frame, text='📂 Sélectionner un fichier Excel', command=self.select_file)
+        self.select_button = ttk.Button(file_frame, text='Sélectionner un fichier Excel', command=self.select_file)
         self.select_button.pack(side=tk.LEFT, padx=5)
 
         self.selected_file_label = ttk.Label(file_frame, text="Aucun fichier sélectionné.")
         self.selected_file_label.pack(side=tk.LEFT, padx=5)
 
-        # --- Results Area --- 
-        results_label = ttk.Label(self, text="📊 Résultats de l'analyse:", font=('Arial', 11, 'bold'))
+        results_label = ttk.Label(self, text="Résultats de l'analyse:", font=('Arial', 11, 'bold'))
         results_label.grid(row=1, column=0, columnspan=3, sticky="w", padx=10, pady=5)
 
         self.result_text = tk.Text(self, wrap=tk.WORD, font=('Courier New', 10))
         self.result_text.grid(row=2, column=0, columnspan=3, sticky="nsew", padx=10, pady=5)
-        self.result_text.config(state=tk.DISABLED) # Make it read-only
+        self.result_text.config(state=tk.DISABLED)
 
-        # --- Action Buttons --- 
         buttons_frame = ttk.Frame(self, padding="10")
         buttons_frame.grid(row=3, column=0, columnspan=3, sticky="ew")
 
-        self.export_button = ttk.Button(buttons_frame, text='💾 Exporter en .txt', command=self.export_results, state=tk.DISABLED)
+        self.export_button = ttk.Button(buttons_frame, text='Exporter en .txt', command=self.export_results, state=tk.DISABLED)
         self.export_button.pack(side=tk.LEFT, padx=5)
 
-        self.copy_button = ttk.Button(buttons_frame, text='📋 Copier les résultats', command=self.copy_results, state=tk.DISABLED)
+        self.copy_button = ttk.Button(buttons_frame, text='Copier les résultats', command=self.copy_results, state=tk.DISABLED)
         self.copy_button.pack(side=tk.LEFT, padx=5)
 
-        self.clear_button = ttk.Button(buttons_frame, text='🧹 Effacer', command=self.clear_results)
+        self.clear_button = ttk.Button(buttons_frame, text='Effacer', command=self.clear_results)
         self.clear_button.pack(side=tk.LEFT, padx=5)
 
-        # --- Status Bar --- 
         self.status_bar = ttk.Label(self, text="", relief=tk.SUNKEN, anchor=tk.W)
         self.status_bar.grid(row=4, column=0, columnspan=3, sticky="ew")
 
-        # Configure grid weights for responsiveness
         self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -119,8 +113,7 @@ class ExcelAnalyzerGUI(tk.Tk):
             result_html = f"<h3>Analyse du fichier: {os.path.basename(file_path)}</h3>"
             result_html += "<hr>"
 
-            # --- Missing Numbers ---
-            result_html += "<h2>🔢 Numéros manquants:</h2>"
+            result_html += "<h2>Numéros manquants:</h2>"
             if not numbers:
                 result_html += "<p><i>(Aucun nombre trouvé pour analyser les plages manquantes)</i></p>"
             else:
@@ -139,10 +132,8 @@ class ExcelAnalyzerGUI(tk.Tk):
                         else:
                             missing_ranges_formatted.append(" ".join(map(str, range(group[0], group[-1] + 1))))
                     result_html += "<pre>" + "\n".join(missing_ranges_formatted) + "</pre>"
-            # result_html += "<br>" # Removed this line
 
-            # --- Occurrences ---
-            result_html += "<h2>📊 Occurrences des numéros (Plus d'une fois):</h2>"
+            result_html += "<h2>Occurrences des numéros (Plus d'une fois):</h2>"
             if not numbers:
                 result_html += "<p><i>(Aucun nombre trouvé pour compter les occurrences)</i></p>"
             else:
@@ -180,23 +171,19 @@ class ExcelAnalyzerGUI(tk.Tk):
             self.export_button.config(state=tk.DISABLED)
 
     def display_results(self, html_content):
-        self.result_text.config(state=tk.NORMAL) # Enable editing to insert text
+        self.result_text.config(state=tk.NORMAL)
         self.result_text.delete(1.0, tk.END)
 
-        # Define Tkinter tags for styling
         self.result_text.tag_configure('h3', font=('Arial', 12, 'bold'))
         self.result_text.tag_configure('h2', font=('Arial', 14, 'bold'))
         self.result_text.tag_configure('pre', font=('Courier New', 10))
         self.result_text.tag_configure('error', foreground='red')
         self.result_text.tag_configure('italic', font=('Arial', 10, 'italic'))
 
-        # Simple HTML parsing and insertion
         import re
 
-        # Replace <hr> with a line of dashes
         html_content = html_content.replace('<hr>', '----------------------------------------------------\n')
 
-        # Process content within tags
         segments = re.split(r'(<h[23]>.*?</h[23]>|<pre>.*?</pre>|<p style=\'color: red;\'>.*?</p>|<p><i>.*?</i></p>)', html_content, flags=re.DOTALL)
 
         for segment in segments:
@@ -205,29 +192,28 @@ class ExcelAnalyzerGUI(tk.Tk):
 
             if segment.startswith('<h3>') and segment.endswith('</h3>'):
                 text = segment[4:-5].strip()
-                self.result_text.insert(tk.END, text + '\n\n', 'h3') # Add an extra newline
+                self.result_text.insert(tk.END, text + '\n\n', 'h3')
             elif segment.startswith('<h2>') and segment.endswith('</h2>'):
                 text = segment[4:-5].strip()
-                self.result_text.insert(tk.END, '\n' + text + '\n\n', 'h2') # Add an extra newline
+                self.result_text.insert(tk.END, '\n' + text + '\n\n', 'h2')
             elif segment.startswith('<pre>') and segment.endswith('</pre>'):
                 text = segment[5:-6].strip()
-                self.result_text.insert(tk.END, text + '\n\n', 'pre') # Add an extra newline
+                self.result_text.insert(tk.END, text + '\n\n', 'pre')
             elif segment.startswith('<p style=\'color: red;\'>') and segment.endswith('</p>'):
                 text = re.sub(r'<p style=\'color: red;\'>|</p>', '', segment).strip()
-                self.result_text.insert(tk.END, text + '\n\n', 'error') # Add an extra newline
+                self.result_text.insert(tk.END, text + '\n\n', 'error')
             elif segment.startswith('<p><i>') and segment.endswith('</i></p>'):
                 text = re.sub(r'<p><i>|</i></p>', '', segment).strip()
-                self.result_text.insert(tk.END, text + '\n\n', 'italic') # Add an extra newline
+                self.result_text.insert(tk.END, text + '\n\n', 'italic')
             elif segment.startswith('<p>') and segment.endswith('</p>'):
                 text = re.sub(r'<p>|</p>', '', segment).strip()
-                self.result_text.insert(tk.END, text + '\n\n') # Add an extra newline
+                self.result_text.insert(tk.END, text + '\n\n')
             else:
-                self.result_text.insert(tk.END, segment + '\n\n') # Add an extra newline
+                self.result_text.insert(tk.END, segment + '\n\n')
 
-        self.result_text.config(state=tk.DISABLED) # Make it read-only again
+        self.result_text.config(state=tk.DISABLED)
 
     def export_results(self):
-        # This function will export the plain text content of the result_text widget
         file_path = filedialog.asksaveasfilename(
             defaultextension=".txt",
             filetypes=[("Fichiers texte", "*.txt")],
@@ -243,7 +229,6 @@ class ExcelAnalyzerGUI(tk.Tk):
                 self.update_status("Erreur lors de l'exportation.", 5000)
 
     def copy_results(self):
-        # This function will copy the plain text content of the result_text widget to clipboard
         try:
             self.clipboard_clear()
             self.clipboard_append(self.result_text.get(1.0, tk.END))

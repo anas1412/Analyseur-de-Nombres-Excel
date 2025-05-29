@@ -38,7 +38,8 @@ Pour construire l'application à partir du code source, vous aurez besoin de Pyt
 3.  **Construire l'exécutable (Windows) :**
     L'application utilise maintenant Tkinter pour son interface graphique. Pour construire l'exécutable, utilisez la commande suivante :
     ```bash
-    pyinstaller excel_analyzer_gui.spec --clean --upx-dir "c:/upx"
+    pyinstaller --onefile --noconsole --name "Analyseur.de.Nombres.Excel" --clean --upx-dir "C:/upx" excel_analyzer_gui.py
+
     ```
     L'exécutable, nommé `Analyseur.de.Nombres.Excel.exe`, se trouvera dans le dossier `dist`.
 
