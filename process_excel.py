@@ -31,7 +31,7 @@ def process_excel(file_path):
         if start == end:
             print(f"{start}")
         else:
-            print(f"{start}-{end}")
+            print(" ".join(map(str, range(start, end + 1))))
 
     print("\nLes occurrences:")
     print(occurrences)
