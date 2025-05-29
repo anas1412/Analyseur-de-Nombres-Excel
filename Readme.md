@@ -33,7 +33,7 @@ Si vous préférez construire l'application vous-même :
 3. Naviguez vers le répertoire du projet :
    `cd process_excel`
 4. Installez les dépendances :
-   `pip install pandas openpyxl numpy PyQt5 pyinstaller`
+   `pip install -r requirements.txt`
 5. Construisez l'exécutable :
    `pyinstaller excel_analyzer.spec`
 6. L'exécutable sera créé dans le dossier `dist`.
