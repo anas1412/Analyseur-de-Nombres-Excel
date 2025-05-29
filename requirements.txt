@@ -1,5 +1,2 @@
-pandas
 openpyxl
-numpy
-PyQt5
 pyinstaller

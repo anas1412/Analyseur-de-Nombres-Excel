@@ -18,24 +18,33 @@ Ce programme analyse un fichier Excel (.xls ou .xlsx) contenant une seule colonn
 
 ## Téléchargement et Installation
 
-### Option 1 : Télécharger l'exécutable
+### Télécharger l'exécutable
 
 Simplement clicker ici: [Télécharger](https://github.com/anas1412/Analyseur-de-Nombres-Excel/releases/latest/download/Analyseur.de.Nombres.Excel.exe)
 
-### Option 2 : Construire à partir du code source
+### Construction à partir du code source
 
-Si vous préférez construire l'application vous-même :
+Pour construire l'application à partir du code source, vous aurez besoin de Python 3.7.5 (64 bits). Vous pouvez le télécharger [ici](https://www.python.org/downloads/release/python-375/).
 
-1. Assurez-vous d'avoir Python 3.7 ou supérieur installé.
-2. Clonez ce dépôt :
-   `git clone https://github.com/anas1412/Analyseur-de-Nombres-Excel.git`
-3. Naviguez vers le répertoire du projet :
-   `cd Analyseur-de-Nombres-Excel`
-4. Installez les dépendances :
-   `pip install -r requirements.txt`
-5. Construisez l'exécutable :
-   `pyinstaller excel_analyzer.spec`
-6. L'exécutable sera créé dans le dossier `dist`.
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone https://github.com/your-repo/excel-analyzer.git
+    cd excel-analyzer
+    ```
+2.  **Installer les dépendances :**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Construire l'exécutable (Windows) :**
+    L'application utilise maintenant Tkinter pour son interface graphique. Pour construire l'exécutable, utilisez la commande suivante :
+    ```bash
+    pyinstaller excel_analyzer_gui.spec --clean --upx-dir "c:/upx"
+    ```
+    L'exécutable, nommé `Analyseur.de.Nombres.Excel.exe`, se trouvera dans le dossier `dist`.
+
+    **Installation d'UPX (Optionnel, pour des exécutables plus petits) :**
+    Pour réduire davantage la taille de l'exécutable, vous pouvez utiliser UPX. Téléchargez la dernière version d'UPX pour Windows depuis <mcurl name="Versions d'UPX sur GitHub" url="https://github.com/upx/upx/releases/latest"></mcurl> <mcreference link="https://github.com/upx/upx/releases/latest" index="0">0</mcreference>.
+    Extrayez l'archive téléchargée et placez le fichier `upx.exe` dans `c:/upx`. Si le dossier extrait contient `upx.exe` dans un sous-dossier (par exemple, `upx-5.0.1-win64`), déplacez `upx.exe` directement dans `c:/upx`.
 
 ## Utilisation
 
